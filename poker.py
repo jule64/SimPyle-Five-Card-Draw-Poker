@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 
+import os
 from random import shuffle
 from tkinter import *
 
-card_dir = "./cards/"
+
+card_dir = os.path.join('.','cards')
 
 class Deck:
 	def __init__(self):
@@ -22,12 +24,12 @@ class Deck:
 class Hand:
 	def __init__(self, deck):
 		self.cards = deck.draw_n_cards(5)
-		self.images = [PhotoImage(file=card_dir+self.cards[i]+'.gif') for i in range(5)]
+		self.images = [PhotoImage(file=os.path.join(card_dir,self.cards[i]+'.gif')) for i in range(5)]
 
 	def discard(self, deck, positions):
 		for p in positions:
 			self.cards[p] = deck.draw_card()
-			self.images[p] = PhotoImage(file=card_dir+self.cards[p]+'.gif')
+			self.images[p] = PhotoImage(file=os.path.join(card_dir,self.cards[p]+'.gif'))
 
 	def evaluation(self):
 		def value(card):
@@ -212,7 +214,7 @@ def main():
 	cardlabels_human = [Label(master) for i in range(5)]
 	cardlabels_AI = [Label(master) for i in range(5)]
 	discard_states = []
-	back = PhotoImage(file=card_dir+'back.gif')
+	back = PhotoImage(file=os.path.join(card_dir,'back.gif'))
 	
 	for i in range(5):
 		cardlabels_AI[i].grid(row=0, column=i)
