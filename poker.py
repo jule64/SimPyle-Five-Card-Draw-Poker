@@ -31,16 +31,9 @@ class Hand:
 
 	def evaluation(self):
 		def value(card):
-			if card[0]=='A':
-				return 14
-			elif card[0]=='K':
-				return 13
-			elif card[0]=='Q':
-				return 12
-			elif card[0]=='J':
-				return 11
-			elif card[0]=='T':
-				return 10
+			face_values = {'A': 14, 'K': 13, 'Q': 12, 'J': 11, 'T': 10}
+			if card[0] in face_values:
+				return face_values[card[0]]
 			else:
 				return int(card[0])
 		
