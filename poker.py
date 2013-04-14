@@ -1,8 +1,15 @@
 #!/usr/bin/python3
 
 import os
-import tkinter
 from random import shuffle
+
+if os.uname()[0] == 'Darwin':
+    import Tkinter as tkinter
+else:
+    import tkinter
+
+
+
 
 card_dir = os.path.join('.','cards')
 
@@ -37,7 +44,7 @@ class Hand:
                 return face_values[card[0]]
             else:
                 return int(card[0])
-        
+
         def valhand(hand):
             vhand=[]
             for i in range(5):
@@ -45,13 +52,13 @@ class Hand:
             vhand.sort()
             vhand.reverse()
             return vhand
-        
+
         def suithand(hand):
             suithand=[]
             for i in range(5):
                 suithand.append(hand[i][1])
             return suithand
-    
+
         def onepair(hand):
             vhand=valhand(hand)
             pairvalue=[]
@@ -65,7 +72,7 @@ class Hand:
             pairvalue=list(set(pairvalue))
             pairvalue.sort()
             return pairvalue+vhand
-    
+
         def twopair(hand):
             vhand=valhand(hand)
             pairvalue=[]
@@ -79,7 +86,7 @@ class Hand:
             pairvalue=list(set(pairvalue))
             pairvalue.sort()
             return pairvalue+vhand
-    
+
         def threekind(hand):
             vhand=valhand(hand)
             pairvalue=[]
@@ -92,7 +99,7 @@ class Hand:
                 vhand.remove(i)
             pairvalue=list(set(pairvalue))
             return pairvalue+vhand
-        
+
         def straight(hand):
             vhand=valhand(hand)
             vhand.reverse()
@@ -100,7 +107,7 @@ class Hand:
                 return [vhand[0]+5]
             else:
                 return False
-        
+
         def flush(hand):
             vhand=valhand(hand)
             shand=suithand(hand)
@@ -108,13 +115,13 @@ class Hand:
                 return vhand
             else:
                 return False
-        
+
         def fullhouse(hand):
             if threekind(hand) and onepair(hand):
                 return [threekind(hand)[0],onepair(hand)[0]]
             else:
                 return False
-        
+
         def fourkind(hand):
             vhand=valhand(hand)
             pairvalue=[]
@@ -127,17 +134,17 @@ class Hand:
                 vhand.remove(i)
             pairvalue=list(set(pairvalue))
             return pairvalue+vhand
-        
+
         def straightflush(hand):
             if straight(hand) and flush(hand):
                 return straight(hand)
             else:
                 return False
-        
+
         def royal(hand):
             if straightflush(hand) and valhand(hand)[0]==10:
                 return True
-    
+
         if royal(self.cards):
             return (10,10)
         elif straightflush(self.cards):
@@ -214,7 +221,7 @@ def main():
     cardlabels_AI = [tkinter.Label(master) for i in range(5)]
     discard_states = []
     back = tkinter.PhotoImage(file=os.path.join(card_dir,'back.gif'))
-    
+
     for i in range(5):
         cardlabels_AI[i].grid(row=0, column=i)
         cardlabels_AI[i].config(image=back)
@@ -224,7 +231,7 @@ def main():
         chk = tkinter.Checkbutton(master, variable=discard_card)
         chk.grid(row=3,column=i)
         discard_states.append(discard_card)
-    
+
     play_button = tkinter.Button(master, text='DRAW', command=lambda: play(hand_human, hand_AI, deck, cardlabels_human, cardlabels_AI, discard_states, announcer, play_button))
     play_button.grid(row=4, column=2)
 
